@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+для теста/
+research/
+test-results/
+*.log
+automation/dist/
+automation/build/
+automation/*.spec
+__pycache__/

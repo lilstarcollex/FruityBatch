@@ -1,0 +1,31 @@
+import { _electron as electron, expect } from '@playwright/test';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+const screenshots=path.resolve('test-results/ui');await fs.mkdir(screenshots,{recursive:true});
+const environment={...process.env,ELECTRON_ENABLE_LOGGING:'1'};delete environment.ELECTRON_RUN_AS_NODE;
+const profile=path.resolve('test-results/profiles/ui-'+Date.now());
+const app=await electron.launch({args:['.','--user-data-dir='+profile],cwd:process.cwd(),env:environment});
+try {
+  const page=await app.firstWindow();const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await expect(page.getByRole('heading',{name:'FL Pack',exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Запустить',exact:true})).toHaveCount(0);
+  await expect(page.locator('aside')).toHaveCount(0);
+  expect(await page.evaluate(()=>getComputedStyle(document.body).backgroundColor)).toBe('rgb(0, 0, 0)');
+  await page.screenshot({path:path.join(screenshots,'empty.png'),fullPage:true});
+  await page.getByRole('textbox',{name:'Путь к папке с проектами'}).fill(path.resolve('для теста'));
+  await page.getByRole('button',{name:'Просканировать папку'}).click();
+  await expect(page.getByText('Идиот - Collex',{exact:true})).toBeVisible({timeout:15000});
+  await expect(page.getByText('Улетаю в Дубай - Collex',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Запустить',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Запустить',exact:true}).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Упаковать проектов: 2?'})).toBeVisible();
+  await page.screenshot({path:path.join(screenshots,'launch.png'),fullPage:true});
+  await page.getByRole('button',{name:'Отмена',exact:true}).click();
+  await page.getByRole('button',{name:'Подробнее: Идиот - Collex',exact:true}).click();
+  await expect(page.getByText(/Архив:/)).toBeVisible();
+  await page.screenshot({path:path.join(screenshots,'queue.png'),fullPage:true});
+  expect(errors).toEqual([]);
+  console.log('UI passed: empty state, real folder scan, version detection, queue, project detail, no renderer errors.');
+} finally {await app.close();}

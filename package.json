@@ -1,0 +1,51 @@
+{
+  "name": "flpack",
+  "version": "1.2.2",
+  "description": "Safe native FL Studio project archiver",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "start": "node scripts/start.mjs",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --test tests/*.test.mjs",
+    "test:real": "node scripts/test-real.mjs",
+    "test:ui": "node scripts/test-ui.mjs",
+    "test:dialogs": "python tests/test_dialogs.py",
+    "build:helper": "python -m PyInstaller --noconfirm --clean --onedir --console --name flpack-exporter --distpath automation/dist --workpath automation/build --specpath automation automation/exporter.py",
+    "pack": "npm run build && npm run build:helper && electron-builder --win dir",
+    "dist": "npm run build && npm run build:helper && node scripts/package.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@radix-ui/react-progress": "^1.2.1",
+    "@radix-ui/react-scroll-area": "^1.4.0",
+    "@radix-ui/react-separator": "^1.2.0",
+    "@radix-ui/react-slot": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cn": "^0.5.0",
+    "lucide-react": "^1.59.0",
+    "radix-ui": "^1.8.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0",
+    "yauzl": "^3.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^42.11.15",
+    "electron-builder": "^26.15.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^7.3.7",
+    "yazl": "^3.3.1"
+  }
+}

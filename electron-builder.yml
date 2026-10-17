@@ -1,0 +1,17 @@
+appId: studio.flpack.desktop
+productName: FL Pack
+electronDist: node_modules/electron/dist
+directories:
+  output: release
+files:
+  - dist/**
+  - electron/**
+  - backend/**
+  - package.json
+extraResources:
+  - from: automation/dist/flpack-exporter
+    to: exporter
+win:
+  target: portable
+  signAndEditExecutable: false
+artifactName: FL-Pack-${version}-Windows.${ext}

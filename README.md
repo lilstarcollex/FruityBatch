@@ -4,6 +4,8 @@ Windows-утилита: папка с проектами → штатный Zipp
 
 ## Запуск
 
+Готовая Windows-сборка: [скачать FL Pack 1.2.2](https://github.com/lilstarcollex/FruityBatch/releases/download/v1.2.2/FL-Pack-1.2.2-Windows.exe). Все версии доступны в [Releases](https://github.com/lilstarcollex/FruityBatch/releases).
+
 Откройте `release/FL-Pack-1.2.2-Windows.exe`. Перед обновлением закройте старое окно утилиты. Node.js и Python для готовой сборки не нужны. FL Studio должна быть установлена и закрыта перед запуском очереди.
 
 Выберите папку, нажмите «Запустить» и «Начать». Проекты обрабатываются последовательно. Результат — `<имя папки проекта>.zip` рядом с исходной папкой.

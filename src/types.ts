@@ -1,0 +1,6 @@
+export type Status='ready'|'checking'|'exporting'|'packing'|'verifying'|'cleaning'|'paused'|'done'|'warning'|'error';
+export interface FileProgress {file:string;activeFiles?:string[];bytes:number;totalBytes:number;completed?:number;totalFiles?:number;speed:number;elapsed:number;audioDecoded?:number;audioSkipped?:number}
+export interface Project {id:string;name:string;folder:string;flp?:string;output:string;version?:string;sampleCount?:number;status:Status;detail?:string;error?:string;engine?:number;warnings?:string[];elapsed?:number;bytes?:number;sourceBytes?:number;fileCount?:number;progress?:FileProgress;stageStartedAt?:number}
+export interface Scan {input:string;projects:Project[];recoveryCount?:number;installations:{year:number;version:string;exe:string}[]}
+export type QueueEvent={type:'project';project:Project}|{type:'progress';id:string;progress:FileProgress}|{type:'fatal';message:string}|{type:'finished';stopped:boolean}|{type:'stopping'}|{type:'recovered';name:string}|{type:'export-event';id:string;event:{type:string;text?:string;seconds?:number;message?:string}};
+declare global {interface Window {flpack?:{chooseFolder:()=>Promise<string|null>;scan:(folder:string)=>Promise<Scan>;start:(ids:string[])=>Promise<boolean>;stop:()=>Promise<void>;reveal:()=>Promise<void>;onEvent:(cb:(event:QueueEvent)=>void)=>()=>void}}}
